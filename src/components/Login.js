@@ -44,7 +44,11 @@ class Login extends Component{
     }
     handleSubmit(event) {
         console.log('Current State is: ' + JSON.stringify(this.state));
+        if (this.state.touched.email && JSON.stringify(this.state.email).split('').filter(x => x === '@').length !== 1) 
+           alert('Email is incorrect');
+        else
         alert('Current State is: ' + JSON.stringify(this.state));
+
         event.preventDefault();
     }
     render()
