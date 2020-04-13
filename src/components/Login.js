@@ -84,13 +84,13 @@ class Login extends Component{
                         <Button className="offset-8 button1">Login<span className="fa fa-arrow-circle-right fa-lg arrow"></span></Button>
                     </FormGroup>
                     <FormGroup>
-                        <div className="last1"><p>New user?<a href="/signup">  Register</a></p></div>
+                        <div className="last"><p>New user?<a href="/signup">  Register</a></p></div>
                         </FormGroup> 
               </Form>
             </div>
             </div>
             <div className="circle4"></div>
-            <div className="div5"><div className="circle5"></div></div>
+            <div className="circle5"></div>
             <div className="circle6"></div>
            </div>
         );
