@@ -43,7 +43,7 @@ class Task extends Component{
          tag: 'complete'
     };
     this.setState(Object.assign(this.state.markedItem,{tag:'complete'}));
-            alert(JSON.stringify(newItem));
+           
 
     const newList1=this.state.list.map((item)=>{
             if(item.id==this.state.markedItem.id)
@@ -81,7 +81,7 @@ class Task extends Component{
             ID:this.state.ID+1 
         });
         
-        alert(JSON.stringify(newList));
+       
         
         
      
@@ -103,7 +103,7 @@ class Task extends Component{
         this.setState({
             list: filteredItem
         });
-        alert(JSON.stringify(this.state.list));
+       
         const newMarkedItem = {
             id: '',
             title: '',
