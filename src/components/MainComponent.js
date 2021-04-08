@@ -1,6 +1,6 @@
 import React,{Component, useEffect} from 'react';
 import { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import Login from './Login';
 import SignUp from './SignUp';
 import Task from './Tasks/Task';
@@ -46,6 +46,7 @@ function Main(){
     
     
     return(
+        <Router>
         <Switch>
             <Route exact path='/login' component={() => (<Login theme={theme} onChange={handleChange} />) }/>
             <Route exact path = '/signup' component={SignUp} />
@@ -53,6 +54,7 @@ function Main(){
             <Route exact path='/confirmation' component={(props) => (<ConfirmationPage revisedList={revisedList} {...props}/>)} />
             <Redirect to = '/tasks' />
         </Switch>
+        </Router>
     );
     
 }

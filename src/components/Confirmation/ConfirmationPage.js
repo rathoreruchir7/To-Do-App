@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import background from '../background-circles.png';
 import { Label, Button, Nav, NavItem, Navbar,NavbarToggler, Collapse, Card,CardHeader,CardBody } from 'reactstrap';
-import { Link, withRouter, NavLink } from 'react-router-dom';
+import {  withRouter } from 'react-router-dom';
 import {fetchList, saveTasks} from '../../redux/ActionCreators';
 import {connect} from 'react-redux';
 // import { Button} from '@fluentui/react-northstar'
@@ -48,7 +48,10 @@ function ConfirmationPage(props) {
         setIsNavOpen(!isNavOpen);
     }
 
-    
+    useEffect(() => {
+        console.log(list)
+        console.log(addedItems)
+    }, [])
 
     const classes = useStyles();
     const list = props.list
@@ -117,7 +120,7 @@ function ConfirmationPage(props) {
                     <Card style={{opacity: theme=="dark"? "100%" : "70%"}}>
                         <CardHeader>New Items Added</CardHeader>
                         <CardBody>
-                            {addedItems.length>0 ? addedItems : "No new tasks added"}
+                            {addedItems.length>0 ? addedItems.map((item) => <div>{item.title}</div>) : "No new tasks added"}
                         </CardBody>
                     </Card>
                 </Grid>
@@ -125,7 +128,7 @@ function ConfirmationPage(props) {
                     <Card style={{opacity: theme=="dark"? "100%" : "70%"}}>
                         <CardHeader>Items Deleted</CardHeader>
                         <CardBody>
-                            {deletedItems.length>0 ? deletedItems : "No previous tasks deleted"}
+                            {deletedItems.length>0 ? deletedItems.map((item) => <div>{item.title}</div>) : "No previous tasks deleted"}
                         </CardBody>
                     </Card>
                 </Grid>

@@ -239,24 +239,24 @@ p{
   opacity: 70%;
 }
 .input1{
-  width: 500px;
+  width: 400px;
   background-color: rgb(251,151,81,0.2);
   
 }
 .input1:focus{
-  width: 500px;
+  width: 400px;
   background-color: rgb(251,151,81,0.2);
   
 }
 
 .input2{
-  width: 750px;
+  width: 600px;
   height: 100px;
   
 }
 
 .input2:focus{
-  width: 750px;
+  width: 600px;
   height: 100px;
 }
 

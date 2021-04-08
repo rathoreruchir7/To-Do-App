@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {Button,Label,Media,Form,FormGroup,Input,Nav,NavItem,Navbar,NavbarBrand,NavbarToggler,Collapse,Card,CardHeader,CardBody} from 'reactstrap';
 import {LIST} from '../../shared/list';
-import { withRouter, NavLink, Link } from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import background from '../background-circles.png';
 import {connect} from 'react-redux';
 import {fetchTasks, fetchList} from '../../redux/ActionCreators';
@@ -29,18 +29,21 @@ class Task extends Component{
             isNavOpen: false,
             list: this.props.list,
             ID:3,
+            loading: false,
             theme: localStorage.getItem("theme"),
             currentItem:{
                 id:0,
                 title: '',
                 description: '',
-                tag:''
+                tag:'',
+                dueDate: ''
             },
             markedItem:{
-                id: LIST[0].id,
-                title: LIST[0].title,
-                description: LIST[0].description,
-                tag: LIST[0].tag
+                id: "",
+                title: "",
+                description: "",
+                tag: "",
+                dueDate: ""
             }
 
 
@@ -53,6 +56,7 @@ class Task extends Component{
         this.doMark = this.doMark.bind(this);
         this.onListChange = this.onListChange.bind(this)
         this.handleThemeClick = this.handleThemeClick.bind(this)
+        this.setLoader = this.setLoader.bind(this)
     }
 
     componentDidMount(){
@@ -71,7 +75,8 @@ class Task extends Component{
          id:this.state.markedItem.id,
          title: this.state.markedItem.title,
          description: this.state.markedItem.description,
-         tag: 'complete'
+         tag: 'complete',
+         dueDate: this.state.markedItem.dueDate
         };
         this.setState(Object.assign(this.state.markedItem,{tag:'complete'}));
             
@@ -91,7 +96,7 @@ class Task extends Component{
          const num = this.state.ID+1;
         
          if(this.state.currentItem.title != "" && this.state.currentItem.description!=""){
-            const item={...this.state.currentItem,id:num,tag:'incomplete'}
+            const item={...this.state.currentItem,id:num}
             this.setState(Object.assign(this.state.currentItem,{id:num}));  //ye dhyan rakh liyo aaj se Object.assign ke 
                                                                                //kuch aur kaam nhi karega.
     
@@ -108,7 +113,9 @@ class Task extends Component{
                 currentItem:{
                     id: 0,
                     title:'',
-                    description:''
+                    description:'',
+                    dueDate: '',
+                    tag: ''
                   },
                 ID:this.state.ID+1 
             });
@@ -126,7 +133,7 @@ class Task extends Component{
         const item={...this.state.currentItem,[name]:value}  //remember to put square brackets.
        this.setState({
            currentItem:item
-       });
+       }, () => console.log(this.state.currentItem));
     }
     deleteTask()
     {
@@ -148,12 +155,13 @@ class Task extends Component{
 
     }
 
-    markedFunction(id,title,description,tag){
+    markedFunction(id,title,description,tag, dueDate){
         const newMarked={
             id: id,
             title: title,
             description: description,
-            tag: tag
+            tag: tag,
+            dueDate: dueDate
         };
         this.setState({
             markedItem:newMarked
@@ -164,12 +172,17 @@ class Task extends Component{
 		this.setState({isNavOpen : !this.state.isNavOpen});
   }
 
-    onListChange(e){
-        // this.props.onChangeList(this.state.list)
-        
-        // this.props.fetchList(this.state.list)
-        // console.log(this.props)
+    setLoader(){
+        this.setState({loading: true}, () => console.log(this.state.loading));
 
+        setTimeout(() => {
+            this.setState({ loading: false })
+        }, 3000)
+    }
+
+    onListChange(e){
+        this.props.onChangeList(this.state.list)
+        this.props.fetchList(this.state.list)       
         this.props.history.push('/confirmation')
     }
 
@@ -188,7 +201,7 @@ class Task extends Component{
     render(){
         const theme = localStorage.getItem('theme')
         const items = this.state.list && this.state.list.map((item)=>{
-           if(item.tag=='incomplete'){
+           if(item.tag!='completed'){
             return(
                 <div className="col-12 mt-5 taskButtton" key={item.id}>
             <Button color ="danger" className="taskbutton2" onClick={()=>this.markedFunction(item.id,item.title,item.description,item.tag)}>{item.title}</Button>   
@@ -242,9 +255,9 @@ class Task extends Component{
 
          </div>
          <div >
-         <div className="col-12 col-md-3 offset-md-2 " >
+         <div className="col-12 col-md-3 offset-md-1" >
             <Card className="card2" style={{opacity: theme=="dark"? "100%" : "70%"}}>
-                <CardHeader >{this.state.markedItem.title}</CardHeader>
+                <CardHeader >{this.state.markedItem.title != "" ? this.state.markedItem.title: "No task selected"}</CardHeader>
                 <CardBody>{this.state.markedItem.description}</CardBody>
                 <div className="row">
                     <div className="col-5 col-md-1 offset-md-6">
@@ -261,23 +274,38 @@ class Task extends Component{
                 </div>
             </Card>
         </div>
-        <div className="col-12 col-md-3 offset-md-2">
+        <div className="col-12 col-md-3 offset-md-1">
             <Card className="card2" style={{opacity: theme=="dark"? "100%" : "70%"}}>
             <CardHeader>Add New Task</CardHeader>
             <CardBody>
             <Form onSubmit={this.handleSubmit}>
-                <FormGroup>
-                    <Label for="title">Title</Label>
-                    <Input type="text" className="input1" id="title" name="title" value={this.state.currentItem.title} 
+                <FormGroup row>
+                    <Label sm={2} for="title">Title</Label>
+                    <Input sm={5} type="text" className="input1" id="title" name="title" value={this.state.currentItem.title} 
                      onChange={this.handleInputChange}
                     placeholder="Title of the Task" />
-                    </FormGroup>
-                    <FormGroup>
-                    <Label for="description">Description</Label>
-                    <Input type="text" className="input1 input2" id="description" name="description" value={this.state.currentItem.description} 
+                </FormGroup>
+                
+                <FormGroup row>
+                    <Label sm={2} for="description">Description</Label>
+                    <Input sm={5} type="text" className="input1 input2" id="description" name="description" value={this.state.currentItem.description} 
                     onChange={this.handleInputChange}
                     placeholder="Description of the Task" />
-                    </FormGroup>
+                </FormGroup>
+                <FormGroup row>
+                    <Label sm={2} >Due Date</Label>
+                    <Input sm={5} type="date" className="input1" id="description" name="description" value={this.state.currentItem.description} 
+                    onChange={this.handleInputChange}
+                    placeholder="Description of the Task" />
+                </FormGroup>
+                <FormGroup row>
+                    <Label sm={2}>Status</Label>
+                    <Input type="select" name="tag" id="tag" className="input1" onChange={this.handleInputChange}>
+                    <option selected>Incomplete</option>
+                    <option>On Hold</option>
+                    <option>Completed</option>
+                </Input>
+                </FormGroup>
                     <FormGroup>
                         <Button type="submit" className="offset-md-10 btn3" style={{backgroundColor: theme=="dark"? "#0B9E02": "#a1dd70"}}>Add Task <span className="fa fa-plus-circle fa-lg"></span></Button>
                     </FormGroup>
