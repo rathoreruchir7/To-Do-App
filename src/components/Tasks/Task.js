@@ -35,7 +35,7 @@ class Task extends Component{
                 id:0,
                 title: '',
                 description: '',
-                tag:'',
+                tag:'incomplete',
                 dueDate: ''
             },
             markedItem:{
@@ -75,15 +75,15 @@ class Task extends Component{
          id:this.state.markedItem.id,
          title: this.state.markedItem.title,
          description: this.state.markedItem.description,
-         tag: 'complete',
+         tag: 'completed',
          dueDate: this.state.markedItem.dueDate
         };
-        this.setState(Object.assign(this.state.markedItem,{tag:'complete'}));
+        this.setState(Object.assign(this.state.markedItem,{tag:'completed'}));
             
 
         const newList1=this.state.list.map((item)=>{
                 if(item.id==this.state.markedItem.id)
-                item.tag = !item.tag;
+                    item.tag = this.state.markedItem.tag;
                 return item;
         });
         this.setState({
@@ -140,9 +140,10 @@ class Task extends Component{
         const filteredItem=this.state.list.filter((item)=>
         item.id !== this.state.markedItem.id);
 
+        console.log(filteredItem)
         this.setState({
             list: filteredItem
-        });
+        }, () => console.log(this.state.list));
        
         const newMarkedItem = {
             id: '',
@@ -219,7 +220,7 @@ class Task extends Component{
             ); 
            }
         });
-        console.log(this.props)
+        
         return(
            
     <React.Fragment>
@@ -294,13 +295,13 @@ class Task extends Component{
                 </FormGroup>
                 <FormGroup row>
                     <Label sm={2} >Due Date</Label>
-                    <Input sm={5} type="date" className="input1" id="description" name="description" value={this.state.currentItem.description} 
+                    <Input sm={5} type="date" className="input1" id="dueDate" name="dueDate" value={this.state.currentItem.dueDate} 
                     onChange={this.handleInputChange}
                     placeholder="Description of the Task" />
                 </FormGroup>
                 <FormGroup row>
                     <Label sm={2}>Status</Label>
-                    <Input type="select" name="tag" id="tag" className="input1" onChange={this.handleInputChange}>
+                    <Input type="select" name="tag" id="tag" className="input1" onChange={this.handleInputChange} value={this.state.currentItem.tag}>
                     <option selected>Incomplete</option>
                     <option>On Hold</option>
                     <option>Completed</option>

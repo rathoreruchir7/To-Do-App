@@ -54,6 +54,7 @@ export const postItem =(item) => {
              throw errmess;
          })
          .then(response => response.json())
+         .catch((err) => console.log(err))
 }
 
 export const saveTasks = (list, newList) => (dispatch) => {
@@ -68,6 +69,8 @@ export const saveTasks = (list, newList) => (dispatch) => {
         console.log(i)
         postItem(newList[i])
     }
+
+
 
     
 }
@@ -134,4 +137,5 @@ export const addNewList = (list) => ({
     type: ActionTypes.ADD_NEWLIST,
     payload: list
 });
+
 

@@ -89,6 +89,8 @@ function ConfirmationPage(props) {
         onSaveChanges()
 
         props.saveTasks(list, newList)
+        props.fetchList([]);
+        props.history.push('/tasks');
     }
 
     function handleThemeClick(){
