@@ -56,7 +56,6 @@ class Task extends Component{
         this.doMark = this.doMark.bind(this);
         this.onListChange = this.onListChange.bind(this)
         this.handleThemeClick = this.handleThemeClick.bind(this)
-        this.setLoader = this.setLoader.bind(this)
     }
 
     componentDidMount(){
@@ -179,20 +178,16 @@ class Task extends Component{
 		this.setState({isNavOpen : !this.state.isNavOpen});
   }
 
-    setLoader(){
-        this.setState({loading: true}, () => console.log(this.state.loading));
-
-        setTimeout(() => {
-            this.setState({ loading: false })
-        }, 3000)
-    }
+    
 
     onListChange(e){
+        this.setState({loading: true}, () => console.log(this.state.loading));
         this.props.onChangeList(this.state.list)
         this.props.fetchList(this.state.list)
         setTimeout(() => {
+            this.setState({ loading: false })
             this.props.history.push('/confirmation')
-        }, 3000)       
+        }, 2000)       
         
     }
 
@@ -260,7 +255,7 @@ class Task extends Component{
                     backgroundColor: theme=="light"? "#ffffff": "#0000CD",
                     border: theme=="light" ?"2px solid #0000CD": "none"
                 }} 
-                onClick={(e) => this.onListChange(e)}>Save</Button>
+                onClick={(e) => this.onListChange(e)}>{this.state.loading ? (<i class="fa fa-spinner fa-pulse fa-2x fa-fw text-primary"></i>) : "Save"}</Button>
             </div>
 
          </div>
