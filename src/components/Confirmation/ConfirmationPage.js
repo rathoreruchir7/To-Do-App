@@ -50,7 +50,7 @@ function ConfirmationPage(props) {
 
     useEffect(() => {
         console.log(list)
-        console.log(addedItems)
+        console.log(newList)
     }, [])
 
     const classes = useStyles();
@@ -82,6 +82,7 @@ function ConfirmationPage(props) {
         setSavingChanges(true)
         setTimeout(() => {
             setSavingChanges(false)
+            // props.history.push('/tasks');
         }, 3000)
     }
 
@@ -89,8 +90,8 @@ function ConfirmationPage(props) {
         onSaveChanges()
 
         props.saveTasks(list, newList)
-        props.fetchList([]);
-        props.history.push('/tasks');
+        
+        
     }
 
     function handleThemeClick(){

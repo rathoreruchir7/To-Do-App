@@ -28,7 +28,7 @@ class Task extends Component{
         this.state={
             isNavOpen: false,
             list: this.props.list,
-            ID:3,
+            ID: 3,
             loading: false,
             theme: localStorage.getItem("theme"),
             currentItem:{
@@ -66,7 +66,13 @@ class Task extends Component{
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ list: nextProps.list });  
+        const obj = nextProps.list[nextProps.list.length-1]
+        if(obj!=undefined){
+            console.log(obj.id)
+            this.setState({ list: nextProps.list, ID: obj.id });
+        }
+            
+          
       }
 
     doMark()
@@ -118,7 +124,7 @@ class Task extends Component{
                     tag: ''
                   },
                 ID:this.state.ID+1 
-            });
+            }, () => console.log(this.state.list));
             
          }
 
@@ -183,8 +189,11 @@ class Task extends Component{
 
     onListChange(e){
         this.props.onChangeList(this.state.list)
-        this.props.fetchList(this.state.list)       
-        this.props.history.push('/confirmation')
+        this.props.fetchList(this.state.list)
+        setTimeout(() => {
+            this.props.history.push('/confirmation')
+        }, 3000)       
+        
     }
 
     handleThemeClick(){
