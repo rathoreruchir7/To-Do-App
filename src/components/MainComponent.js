@@ -28,28 +28,13 @@ function Main(){
         setRevisedList(list);
     }
 
-    // useEffect(() => {
-    //     console.log(theme)
-       
-    // })
-
-    // useEffect(() => {
-    //     console.log(revisedList)
-    // })
-
     
-    // useEffect(() => {
-    //     console.log(revisedList)
-    // })
-
 
     
     
     return(
         <Router>
         <Switch>
-            <Route exact path='/login' component={() => (<Login theme={theme} onChange={handleChange} />) }/>
-            <Route exact path = '/signup' component={SignUp} />
             <Route exact path = '/tasks' component={(props) => ( <Task theme={theme} onChangeList = {handleChangeList} {...props}/>)} />
             <Route exact path='/confirmation' component={(props) => (<ConfirmationPage revisedList={revisedList} {...props}/>)} />
             <Redirect to = '/tasks' />
