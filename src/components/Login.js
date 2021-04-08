@@ -16,8 +16,9 @@ class Login extends Component{
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleThemeClick = this.handleThemeClick.bind(this)
     }
-
+    
     validate(email)
     {
         const errors={
@@ -51,11 +52,19 @@ class Login extends Component{
 
         event.preventDefault();
     }
+
+    handleThemeClick(){
+        if(this.props.theme == 'dark')
+            this.props.onChange('light');
+        else
+            this.props.onChange('dark');
+    }
     render()
     {
         const errors=this.validate(this.state.email);
+        
         return(
-            <div>
+            <div style={{backgroundColor: this.props.theme=='light'?'#f1e8e6': '#000000'}}>
                 <div className="circle1">
               </div>
 
@@ -64,6 +73,7 @@ class Login extends Component{
              
              <div className="form1">
                  <div><h1>Welcome Back! Sign In</h1></div>
+                 <Button onClick={this.handleThemeClick}>Theme</Button>
                  <div className="line"></div>
                <div className="form-class">
                <Form onSubmit={this.handleSubmit}>

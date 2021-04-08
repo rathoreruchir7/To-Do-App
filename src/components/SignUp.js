@@ -162,3 +162,7 @@ class SignUp extends Component{
     }
 }
 export default SignUp;
+
+//ye values.author kaam nhi karta hai , seedha values pe chal raha tha.
+                                        // button pe onclick function mat lagana
+                                        //redux form use karna

@@ -1,0 +1,7 @@
+export const TASKS_LOADING = 'TASKS_LOADING';
+export const TASKS_FAILED = 'TASKS_FAILED';
+export const ADD_TASKS = 'ADD_TASKS';
+
+export const NEWLIST_LOADING = 'NEWLIST_LOADING';
+export const NEWLIST_FAILED = 'NEWLIST_FAILED';
+export const ADD_NEWLIST = 'ADD_NEWLIST';

@@ -1,23 +1,59 @@
-import React,{Component} from 'react';
+import React,{Component, useEffect} from 'react';
+import { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './Login';
 import SignUp from './SignUp';
-import Task from './Task';
-class Main extends Component{
-    constructor(props)
-    {
-        super(props);
+import Task from './Tasks/Task';
+import ConfirmationPage from './Confirmation/ConfirmationPage'
+function Main(){
+    
+    const [theme, setTheme] = useState('');
+    const [revisedList, setRevisedList] = useState(null) 
 
+    function handleChange(){
+            if(theme == 'light')
+                {
+                    setTheme('dark')
+                    localStorage.setItem('theme', 'dark')
+                }
+            else{
+                setTheme('light')
+                localStorage.setItem('theme', 'light')
+            }    
+        
     }
-    render(){
+
+    function handleChangeList(list){
+        console.log(revisedList)
+        setRevisedList(list);
+    }
+
+    // useEffect(() => {
+    //     console.log(theme)
+       
+    // })
+
+    // useEffect(() => {
+    //     console.log(revisedList)
+    // })
+
+    
+    // useEffect(() => {
+    //     console.log(revisedList)
+    // })
+
+
+    
+    
     return(
         <Switch>
-            <Route exact path='/login' component={Login} />
+            <Route exact path='/login' component={() => (<Login theme={theme} onChange={handleChange} />) }/>
             <Route exact path = '/signup' component={SignUp} />
-            <Route exact path = '/tasks' component={Task} />
-            <Redirect to = '/login' component={Login} />
+            <Route exact path = '/tasks' component={(props) => ( <Task theme={theme} onChangeList = {handleChangeList} {...props}/>)} />
+            <Route exact path='/confirmation' component={(props) => (<ConfirmationPage revisedList={revisedList} {...props}/>)} />
+            <Redirect to = '/tasks' />
         </Switch>
     );
-    }
+    
 }
 export default Main;
