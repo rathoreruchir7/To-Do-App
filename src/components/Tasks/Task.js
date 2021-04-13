@@ -228,7 +228,7 @@ class Task extends Component{
         return(
            
     <React.Fragment>
-            <div className="body2" style={{ backgroundImage: `url(${background})`, backgroundColor: theme=='light'?'#f1e8e6': '#201F1F' }}>
+            <div className="body2" style={{ backgroundImage: `url(${background})`, backgroundColor: theme=='light' || ""?'#f1e8e6': '#201F1F' }}>
             <Navbar dark expand="md">
             <div className="container offset-md-10">
                 <Label for="data-test-theme-id" style={{color: theme=="dark"? "#ffffff": "#000000"}}>Theme</Label>
